@@ -1,11 +1,11 @@
 # R1 Batch Variant Calling Pipeline (SNV/INDEL Splitter)
 
-A lightweight, teaching-friendly batch pipeline that performs end‑to‑end variant calling from paired‑end FASTQ files, then **separates SNVs and INDELs** into dedicated VCFs. Designed to be **fault‑tolerant** (skips samples with missing mates) and **transparent** (timestamped logs for auditability).
+A lightweight, teaching-friendly batch pipeline that performs end-to-end variant calling from paired-end FASTQ files, then **separates SNVs and INDELs** into dedicated VCFs. Designed to be **fault-tolerant** (skips samples with missing mates) and **transparent** (timestamped logs for auditability).
 
 ---
 
 ## Why this exists
-- **Realistic training**: demonstrates alignment → variant calling → post‑processing in a few, readable steps.
+- **Realistic training**: demonstrates alignment → variant calling → post-processing in a few, readable steps.
 - **Reproducibility**: consistent folder structure, deterministic commands, and log files per run.
 - **Fault tolerance**: gracefully skips incomplete pairs instead of crashing entire batches.
 
@@ -13,8 +13,8 @@ A lightweight, teaching-friendly batch pipeline that performs end‑to‑end var
 
 ## Features
 - Batch processing of all `*_R1.fastq.gz` files in `inputs/` with automatic `_R2` pairing.
-- Error‑tolerant: logs **“Missing R2… skipping.”** and continues.
-- Clear audit trail: a global `run_batch.log` with start/finish timestamps plus per‑sample stdout/stderr logs.
+- Error-tolerant: logs **“Missing R2… skipping.”** and continues.
+- Clear audit trail: a global `run_batch.log` with start/finish timestamps plus per-sample stdout/stderr logs.
 - Clean output tree: BAM → BCF → VCF → split **SNVs** and **INDELs**.
 
 ---
@@ -26,14 +26,14 @@ A lightweight, teaching-friendly batch pipeline that performs end‑to‑end var
 - **Reference genome** (example path used below): `ref/hg19_chr8.fa`
   - Make sure the reference is indexed for `bwa` (`.bwt` etc.) and `samtools` (`.fai`).
 
-> **Note on ploidy**  
+> **Note on ploidy**
 > The example command uses `bcftools call --ploidy 1` for simplicity. For diploid human autosomes you may prefer `--ploidy 2`. Adjust to your study design.
 
 ---
 
 ### Download the reference FASTA
 
-GitHub does not track files >100 MB. Fetch the small demo FASTA used in examples:
+GitHub does not track files >100 MB. Fetch the small demo FASTA used in examples:
 
 ```bash
 bash scripts/download_reference.sh
@@ -92,7 +92,7 @@ To use a different reference, pass a URL and basename:
 bash scripts/download_reference.sh ref <YOUR_URL> <BASENAME>
 ```
 
-### Keep references out of Git (one‑time cleanup)
+### Keep references out of Git (one-time cleanup)
 
 If you accidentally committed reference files, remove them from version control and ignore them going forward:
 
@@ -148,7 +148,7 @@ bcftools view -v indels results/vcf/{sample}_final_variants.vcf.gz > results/vcf
 The wrapper script `scripts/run_batch_pipeline.sh` controls batching, logging, and error handling.
 
 ### Example log (with a missing mate)
-This demonstrates what happens if one sample (e.g., `sample1`) has no matching `_R2` file.  
+This demonstrates what happens if one sample (e.g., `sample1`) has no matching `_R2` file.
 ```
 Batch processing started: Wed Aug 20 18:38:15 BST 2025
 Missing R2 pair for sample1, skipping.
@@ -160,7 +160,7 @@ Batch run finished: Wed Aug 20 18:50:09 BST 2025
 ```
 
 ### Default log (all samples run successfully)
-If all three pairs are present (`sample1`, `sample2`, and `sample3`), the batch log would look like this:  
+If all three pairs are present (`sample1`, `sample2`, and `sample3`), the batch log would look like this:
 ```
 Batch processing started: Wed Aug 20 18:38:15 BST 2025
 Processing sample1...
@@ -172,14 +172,14 @@ Completed sample3
 Batch run finished: Wed Aug 20 18:50:09 BST 2025
 ```
 
-Per‑sample logs are written to `results/logs/{sample}.log` with corresponding errors (if any) in `{sample}.err`.
+Per-sample logs are written to `results/logs/{sample}.log` with corresponding errors (if any) in `{sample}.err`.
 
 ---
 
 ## Usage details
 - **Input naming**: samples must follow `NAME_R1.fastq.gz` / `NAME_R2.fastq.gz`.
 - **Reference path**: edit `REF_GENOME="ref/hg19_chr8.fa"` in the wrapper if your reference lives elsewhere.
-- **Exit behaviour**: the wrapper uses `set -e` and checks return codes; on a per‑sample failure, it prints a helpful message and continues to the next sample.
+- **Exit behaviour**: the wrapper uses `set -e` and checks return codes; on a per-sample failure, it prints a helpful message and continues to the next sample.
 
 ---
 
@@ -202,11 +202,11 @@ Per‑sample logs are written to `results/logs/{sample}.log` with corresponding 
 
 ## Reproducibility & teaching notes
 - This pipeline emphasises **clarity over cleverness**: minimal flags, explicit files, readable logs.
-- The fault‑tolerant batch runner is ideal for demonstrating **resilience patterns** (skip bad inputs, keep the run alive, inspect logs).
+- The fault-tolerant batch runner is ideal for demonstrating **resilience patterns** (skip bad inputs, keep the run alive, inspect logs).
 
 ---
 
-## Roadmap (nice‑to‑haves)
+## Roadmap (nice-to-haves)
 - Configurable ploidy/parameters via CLI flags.
 - Optional container recipes (Docker/Singularity) and a Makefile or Nextflow wrapper.
 - Basic unit tests on tiny synthetic FASTQs.
@@ -214,9 +214,9 @@ Per‑sample logs are written to `results/logs/{sample}.log` with corresponding 
 ---
 
 ## License
-MIT (or your preferred open‑source license).
+MIT — © 2025 Samson Olofinsae. See the [LICENSE](./LICENSE) file for details.
 
 ---
 
 ## Acknowledgements
-Authored by **Samson Olofinsae**. Built as part of hands‑on training in robust, reproducible genomics workflows.
+Authored by **Samson Olofinsae**. Built as part of hands-on training in robust, reproducible genomics workflows.
