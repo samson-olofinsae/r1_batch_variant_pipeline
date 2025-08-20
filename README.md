@@ -214,7 +214,7 @@ Per-sample logs are written to `results/logs/{sample}.log` with corresponding er
 ---
 
 ## License
-MIT — © 2025 Samson Olofinsae. See the [LICENSE](./LICENSE) file for details.
+MIT - © 2025 Samson Olofinsae. See the [LICENSE](./LICENSE) file for details.
 
 ---
 
