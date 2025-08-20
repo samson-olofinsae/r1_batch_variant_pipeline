@@ -1,0 +1,34 @@
+# Data & outputs
+results/
+inputs/*
+!inputs/README.md
+ref/*
+!ref/README.md
+
+# Common genomics binaries (belt & braces)
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.fa
+*.fa.gz
+*.fasta
+*.fasta.gz
+*.fai
+*.dict
+*.bam
+*.bai
+*.bcf
+*.csi
+*.tbi
+*.vcf
+*.vcf.gz
+*.idx
+
+# Logs
+*.log
+*.err
+
+# OS / Python
+__pycache__/
+*.pyc
+.DS_Store
