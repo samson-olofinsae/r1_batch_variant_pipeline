@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Wrapper script to batch-run split_snv_indel_variants.py on all sample pairs
 
 set -e  # Exit on error
@@ -15,6 +14,9 @@ echo " Batch processing started: $(date)" | tee "$LOG_DIR/run_batch.log"
 
 # Loop over all *_R1.fastq.gz files
 for R1 in "$INPUT_DIR"/*_R1.fastq.gz; do
+    # Skip if no R1 files found (literal glob remained)
+    [[ -e "$R1" ]] || { echo " No R1 files found in $INPUT_DIR"; break; }
+
     sample_base=$(basename "$R1" _R1.fastq.gz)
     R2="$INPUT_DIR/${sample_base}_R2.fastq.gz"
 
@@ -38,3 +40,14 @@ for R1 in "$INPUT_DIR"/*_R1.fastq.gz; do
 done
 
 echo " Batch run finished: $(date)" | tee -a "$LOG_DIR/run_batch.log"
+
+# ---- MultiQC report (NEW; optional, auto-detected) --------------------------
+# Generates an HTML report if MultiQC is installed and not disabled.
+if command -v multiqc >/dev/null 2>&1 && [[ -z "${NO_MULTIQC:-}" ]]; then
+    echo " Building MultiQC report..." | tee -a "$LOG_DIR/run_batch.log"
+    mkdir -p results/multiqc
+    multiqc results -o results/multiqc -n r1_multiqc.html
+    echo " MultiQC report written: results/multiqc/r1_multiqc.html" | tee -a "$LOG_DIR/run_batch.log"
+else
+    echo " MultiQC not run (install 'multiqc' or unset NO_MULTIQC to enable)." | tee -a "$LOG_DIR/run_batch.log"
+fi

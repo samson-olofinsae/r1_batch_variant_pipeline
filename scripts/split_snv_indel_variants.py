@@ -2,9 +2,7 @@
 
 # Author: Samson Olofinsae
 # Purpose: End-to-end variant calling from FASTQ, separating SNVs and indels
-
-# Usage:
-# Run the wrapper bash script : run_batch_pipeline.sh
+# Usage: Called per-sample by scripts/run_batch_pipeline.sh
 
 import sys
 import os
@@ -63,5 +61,32 @@ for cmd in commands:
     if ret != 0:
         print(f" Command failed: {cmd}")
         sys.exit(1)
+
+# ---- MultiQC Custom Content (NEW) ------------------------------------------
+# Emit a small TSV with header comments so MultiQC auto-detects & renders it.
+mqc_dir = os.path.join(results_dir, "multiqc_cc")
+os.makedirs(mqc_dir, exist_ok=True)
+mqc_tsv = os.path.join(mqc_dir, f"{sample_base}_r1_stats_mqc.tsv")
+
+def count_records(vcf_path):
+    """Count non-header records in a VCF (0 if missing/unreadable)."""
+    try:
+        out = subprocess.check_output(f"grep -vc '^#' {vcf_path} || echo 0",
+                                      shell=True, stderr=subprocess.DEVNULL)
+        return int(out.decode().strip())
+    except Exception:
+        return 0
+
+snv_count = count_records(snv_file)
+indel_count = count_records(indel_file)
+
+with open(mqc_tsv, "w") as fh:
+    fh.write("# id: r1_variant_splitter\n")
+    fh.write("# section_name: R1 Variant Splitter — variant summary\n")
+    fh.write("# description: SNV/INDEL counts per sample (from bcftools outputs)\n")
+    fh.write("# plot_type: table\n")
+    fh.write("# file_format: tsv\n")
+    fh.write("Sample\tsnvs\tindels\n")
+    fh.write(f"{sample_base}\t{snv_count}\t{indel_count}\n")
 
 print(f" Pipeline completed successfully for: {sample_base}")
