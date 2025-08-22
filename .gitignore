@@ -1,9 +1,11 @@
-# Data & outputs
+# Data & runtime outputs
 results/
 inputs/*
 !inputs/README.md
 ref/*
 !ref/README.md
+multiqc_report.html
+*.html
 
 # Common genomics binaries (belt & braces)
 *.fastq
@@ -23,10 +25,13 @@ ref/*
 *.vcf
 *.vcf.gz
 *.idx
+*.vcf.gz.tbi
 
-# Logs
+# === logs / scratch ===
 *.log
 *.err
+*.tmp
+*.part
 
 # OS / Python
 __pycache__/
