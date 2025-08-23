@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "R1 Batch Variant Calling Pipeline (SNV/INDEL Splitter)"
+abstract: "Lightweight, teaching-friendly batch pipeline that aligns paired-end FASTQs (BWA), calls variants (bcftools), and splits SNVs vs INDELs into dedicated VCFs. Fault-tolerant (skips missing mates) with timestamped logs and MultiQC custom content/HTML for at-a-glance reporting."
+authors:
+  - family-names: Olofinsae
+    given-names: Samson
+license: MIT
+
+repository-code: "https://github.com/samson-olofinsae/r1_batch_variant_pipeline"
+url: "https://github.com/samson-olofinsae/r1_batch_variant_pipeline"
+version: "v0.1.0"
+date-released: "2025-08-23"
+keywords:
+  - variant-calling
+  - snv
+  - indel
+  - bwa
+  - samtools
+  - bcftools
+  - multiqc
+  - training
+  - reproducibility
+  - bash
+
+preferred-citation:
+  type: software
+  title: "R1 Batch Variant Calling Pipeline (SNV/INDEL Splitter)"
+  authors:
+    - family-names: Olofinsae
+      given-names: Samson
+  version: "v0.1.0"
+  date-released: "2025-08-23"
+  url: "https://github.com/samson-olofinsae/r1_batch_variant_pipeline"
+  
